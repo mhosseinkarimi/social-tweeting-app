@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
  * Tweeting structures are connected via a hierarchical relation between a tweet and parent tweet.
  *
  * @author Mohammad Hossein Karimi
- * @version 1.2
+ * @version 1.1
  */
 public class Tweet {
     //fields
