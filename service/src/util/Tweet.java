@@ -12,14 +12,14 @@ import java.time.format.DateTimeFormatter;
  */
 public class Tweet {
     //fields
-    private static final int tweetLength = 256;
-    private String ownerUsername;           // Username of the tweet publisher
-    private String tweetText;               // Content of the tweet
-    private final String parentTweetID;     // ID of the parent tweet (useful in hierarchical structures like retweets or replies
-    private final LocalDateTime tweetDate;  // Date of the publication of the tweet
-    private int likesNumber;                // Number of the likes
-    private final String tweetID;           // ID of the tweet
-    private int retweetNumber;              // Number of the retweets
+    protected static final int tweetLength = 256;
+    protected String ownerUsername;           // Username of the tweet publisher
+    protected String tweetText;               // Content of the tweet
+    protected final String parentTweetID;     // ID of the parent tweet (useful in hierarchical structures like retweets or replies
+    protected final LocalDateTime tweetDate;  // Date of the publication of the tweet
+    protected int likesNumber;                // Number of the likes
+    protected final String tweetID;           // ID of the tweet
+    protected int retweetNumber;              // Number of the retweets
 
     /**
      * Constructor of Tweet class.
