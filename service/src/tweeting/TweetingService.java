@@ -52,7 +52,7 @@ public class TweetingService implements TweetIO {
      */
     public void deleteTweet(String tweetID) {
         if (tweetExists(tweetID)) {
-            File tweetFile = new File(tweetsDir, tweetID);
+            File tweetFile = new File(tweetsDir, tweetID+".bin");
             boolean deleteResult = tweetFile.delete();// Deleting the tweet
 
             // Deleting the child tweets
@@ -207,7 +207,7 @@ public class TweetingService implements TweetIO {
     @Override
     public Tweet readTweet(String tweetsDir, String tweetID) {
         Tweet tweet;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(tweetsDir, tweetID)))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(tweetsDir, tweetID+".bin")))) {
             tweet = (Tweet) ois.readObject();
             return tweet;
         } catch (IOException | ClassNotFoundException e) {
@@ -225,7 +225,7 @@ public class TweetingService implements TweetIO {
     @Override
     public void writeTweet(String tweetsDir, Tweet tweet) {
         String tweetName = tweet.getTweetID();
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(tweetsDir, tweetName)))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(tweetsDir, tweetName+".bin")))) {
             oos.writeObject(tweet);
         } catch (IOException e) {
             e.printStackTrace();
