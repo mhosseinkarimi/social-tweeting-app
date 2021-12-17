@@ -1,7 +1,9 @@
 package util;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  * This class represents a tweet as a building block of tweeting service.
@@ -10,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  * @author Mohammad Hossein Karimi
  * @version 1.1
  */
-public class Tweet {
+public class Tweet implements Serializable {
     //fields
     protected static final int tweetLength = 256;
     protected String ownerUsername;           // Username of the tweet publisher
@@ -20,6 +22,9 @@ public class Tweet {
     protected int likesNumber;                // Number of the likes
     protected final String tweetID;           // ID of the tweet
     protected int retweetNumber;              // Number of the retweets
+    private ArrayList<String> retweets;  // A mapping from the retweeted tweet to the usernames of the retweeters
+    private ArrayList<String> likes;     // A mapping from the tweet ID to the username of the likers
+
 
     /**
      * Constructor of Tweet class.
@@ -40,7 +45,8 @@ public class Tweet {
         }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         tweetID = this.ownerUsername + '-' + this.tweetDate.format(dtf);
-
+        retweets = new ArrayList<>();
+        likes = new ArrayList<>();
     }
 
     /**
@@ -152,6 +158,64 @@ public class Tweet {
      */
     public int getRetweetNumber() {
         return retweetNumber;
+    }
+
+    /**
+     * Getter Method for likes
+     *
+     * @return ArrayList of usernames of likers
+     */
+    public ArrayList<String> getLikes() {
+        return likes;
+    }
+
+    /**
+     * Getter method for retweets
+     *
+     * @return ArrayList of username of the account that retweeted
+     */
+    public ArrayList<String> getRetweets() {
+        return retweets;
+    }
+
+    /**
+     * Adds the username of the accounts retweeting the tweet
+     *
+     * @param username Username of the account retweeted the tweet
+     */
+    public void addRetweet(String username) {
+        retweets.add(username);
+        changeRetweetNumber(1);
+    }
+
+    /**
+     * Removes a retweet
+     *
+     * @param username Username of the account retweeted
+     */
+    public void removeRetweet(String username) {
+        retweets.remove(username);
+        changeRetweetNumber(-1);
+    }
+
+    /**
+     * Adds a like on tweet
+     *
+     * @param username Username of the liker
+     */
+    public void addLike(String username) {
+        likes.add(username);
+        changeLikeNumber(1);
+    }
+
+    /**
+     * Removes a like on tweet
+     *
+     * @param username Username of the liker
+     */
+    public void removeLike(String username) {
+        likes.remove(username);
+        changeLikeNumber(-1);
     }
 
     /**
