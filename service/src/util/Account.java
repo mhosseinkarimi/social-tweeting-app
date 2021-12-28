@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Account class represents users in this program
@@ -29,9 +32,9 @@ public class Account implements Serializable{
     //Represents state of user
     private boolean signedIn;
     //Represents followers
-    private ArrayList<String> followers;
+    private ArrayList followers;
     //represents followings
-    private ArrayList<String> followings;
+    private ArrayList followings;
 
 
     /**
@@ -59,7 +62,10 @@ public class Account implements Serializable{
         this.biography = biography;
         //Sets data to the field
         this.dateOfMembership = java.time.LocalDate.now();
-
+        //Represents followers
+        followers = new ArrayList<>();
+        //represents followings
+        followings = new ArrayList<>();
     }
 
     /**
