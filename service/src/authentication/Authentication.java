@@ -1,7 +1,5 @@
 package authentication;
-
 import util.Account;
-
 import java.io.*;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -9,6 +7,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.io.File;
+import java.util.Scanner;
 
 /**
  * Authentication Class Includes
@@ -17,10 +17,24 @@ import java.util.Date;
  */
 public class Authentication{
 
+    //File Writer
+    FileWriter fileWriter;
     //Represents usernames
     private ArrayList<String> usernames = new ArrayList<>();
     //Represents path of the file
-    private String path;
+    private String path = "C:\\Users\\mohammad\\Desktop\\project_ap\\users";
+
+    public Authentication(){
+
+        try {
+
+            fileWriter = new FileWriter(path + "\\usernames.txt", true);
+
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
 
 
     /**
@@ -37,15 +51,28 @@ public class Authentication{
         //checks username
         if(!isExists(username)){
 
-            //converts password into sha format
-            password = toHexString(getSHA(password));
-            //adds new username
-            usernames.add(username);
+            try {
+                password = toHexString(getSHA(password));
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
+
+            //new account
             Account account = new Account(name, lastname, username, dateOfBirth, password, biography);
+            //adds user
+            addUser(account);
+            //sets signIn
+            account.setSignedIn(true);
             //adds new account to file
-            objectFileWriter(path + username + ".bin", account);
+            objectFileWriter(path + "\\" + username + ".bin", account);
+            //output message
+            System.out.println("SignUp Successfully! Welcome to Twitter!");
 
         }
+
+        else
+            System.out.println("Choose Another username!");
     }
 
     /**
@@ -62,13 +89,17 @@ public class Authentication{
         //Represent accounts
         Account account = null;
         //Convert password into sha format
-        password = toHexString(getSHA(password));
+        try {
+            password = toHexString(getSHA(password));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         //Search on users
-        for(String Username: usernames){
+        for(String Username: getUsers()){
             //Check whether usernames are equal
             if(Username.equals(username)){
               //Receive object from file
-              Temp = objectFileReader(path + username +".bin");
+              Temp = objectFileReader(path + "\\" + username +".bin");
               //Cast temp
               account = (Account) Temp;
                 //Check whether passwords are equal
@@ -76,7 +107,7 @@ public class Authentication{
                   //Update filed
                   account.setSignedIn(true);
                   //Update account in the file
-                  objectFileWriter(path + username + ".bin", account);
+                  objectFileWriter(path + "\\" + username + ".bin", account);
 
                   System.out.println("Login Complete!");
 
@@ -89,6 +120,44 @@ public class Authentication{
 
         if(!Login)
             System.out.println("ADD MESSAGE! UnSuccessFull Login");
+
+    }
+
+    public void Logout(String username){
+
+
+        //Represent Login
+        boolean Login = false;
+        //Receive accounts from file
+        Object Temp = null;
+        //Represent accounts
+        Account account = null;
+        //Search on users
+        for(String Username: getUsers()){
+            //Check whether usernames are equal
+            if(Username.equals(username)){
+                //Receive object from file
+                Temp = objectFileReader(path + "\\" + username +".bin");
+                //Cast temp
+                account = (Account) Temp;
+                //Check whether passwords are equal
+                if(account.isSignedIn()){
+                    //Update filed
+                    account.setSignedIn(false);
+                    //Update account in the file
+                    objectFileWriter(path + "\\" + username + ".bin", account);
+
+                    System.out.println("Logout Complete!");
+
+                    Login = true;
+
+                }
+
+            }
+        }
+
+        if(!Login)
+            System.out.println("ADD MESSAGE! UnSuccessFull Logout");
 
     }
 
@@ -174,6 +243,8 @@ public class Authentication{
         return account;
     }
 
+
+
     /**
      * isExists searches among usernames
      * @param username
@@ -184,7 +255,7 @@ public class Authentication{
         //Output variable
         boolean Exists = false;
         //searches on usernames
-        for(String UserName: usernames){
+        for(String UserName: getUsers()){
             //checks whether usernames are equal
             if(username.equals(UserName)){
                 Exists = true;
@@ -196,5 +267,51 @@ public class Authentication{
 
     }
 
+    public void addUser(Account account){   /// inja khat avval bad try
+
+        try {
+
+            //Buffer
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            //Writing
+            bufferedWriter.write(account.getUsername() + "\n");
+            //Flushing
+            bufferedWriter.flush();
+            //Closing
+            bufferedWriter.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * getUsers method reads usernames from file
+     * @return usernames
+     */
+    public ArrayList<String> getUsers() {
+
+        //Represents usernames
+        ArrayList<String> list = new ArrayList<>();
+
+        try {
+
+            //new scanner
+            Scanner s = new Scanner(new File(path + "\\usernames.txt"));
+            //output arraylist
+            list = new ArrayList<String>();
+            while (s.hasNext()) {
+                list.add(s.next());
+            }
+            s.close();
+
+          //IOException
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //returns arraylist
+        return list;
+    }
 
 }
