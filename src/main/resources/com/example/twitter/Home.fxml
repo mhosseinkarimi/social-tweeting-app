@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.Avatar?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="132.0" style="-fx-background-color: #1DA1F2;" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="32.0" layoutY="111.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="66.0" style="-fx-background-color: #FFFFFF;" text="Profile" />
+            <Button layoutX="30.0" layoutY="187.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: #FFFFFF;" text="TimeLine" />
+            <Button layoutX="30.0" layoutY="263.0" mnemonicParsing="false" style="-fx-background-color: #FFFFFF;" text="Chatroom" />
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="400.0" prefWidth="460.0" BorderPane.alignment="CENTER">
+         <children>
+            <Avatar layoutX="68.0" layoutY="66.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
