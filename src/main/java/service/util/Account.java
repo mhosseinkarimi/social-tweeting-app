@@ -59,7 +59,7 @@ public class Account implements Serializable {
         //Sets data to the field
         this.biography = biography;
         //Sets data to the field
-        this.dateOfMembership = java.time.LocalDate.now();
+        this.dateOfMembership = LocalDate.now();
         //Represents followers
         followers = new ArrayList<>();
         //represents followings

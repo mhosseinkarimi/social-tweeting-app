@@ -43,7 +43,7 @@ public class Authentication{
      * @param lastname lastname
      * @param username username
      * @param dateOfBirth date of birth
-     * @param password password
+     * @param password paupssword
      * @param biography biography
      */
     public void signUp(String name, String lastname, String username, Date dateOfBirth, String password, String biography) {
@@ -212,10 +212,8 @@ public class Authentication{
             FileOutputStream fileOutputStream = new FileOutputStream(Path);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(Account);
-        }catch (FileNotFoundException e){
+        } catch (IOException e){
 
-            e.printStackTrace();
-        }catch (IOException e){
             e.printStackTrace();
         }
 
